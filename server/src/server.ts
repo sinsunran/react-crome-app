@@ -1,6 +1,10 @@
-import express, { Request, Response } from 'express'
+import "dotenv/config"
+import express ,{Request,Response}from 'express'
 import cors from "cors";
-const PORT = process.env.PORT || 4000
+import morgan from "morgan";
+
+const PORT = process.env.PORT
+const logger = morgan("dev")
 class App {
        public application: express.Application;
        constructor() {
@@ -8,24 +12,9 @@ class App {
        }
 }
 const app = new App().application;
+
 app.use(cors());
-app.get("/", (req: Request, res: Response) => {
-       res.send("server testing ok");
-})
-app.get('/data/1', (req: Request, res: Response) => {
-       res.json({
-              id: 1,
-              name: 'pepper',
-              age: 26,
-              job: 'developer'
-       })
-})
-app.get('/data/2', (req: Request, res: Response) => {
-       res.json({
-              id: 2,
-              name: 'kelly',
-              age: 21,
-              job: 'student'
-       })
-})
-app.listen(PORT, () => console.log("server running..."));             
+app.use(logger)
+app.post("/",(req:Request,res:Response)=>res.send("hi"))
+
+app.listen(PORT, () => console.log(`✅The server is now listen on port ${PORT}🚀`));          
